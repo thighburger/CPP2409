@@ -10,4 +10,5 @@ int main()
     s2="GOOD";
     b=(s1==s2);
     cout <<b<<endl;
+    //hahahaahha
 }
