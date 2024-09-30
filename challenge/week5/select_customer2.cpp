@@ -18,6 +18,7 @@ int main(){
         cin>>names[i];
         cout<<"사람" <<i+1<<"의 나이:";
         cin >>ages[i];
+
     if(max<ages[i]){
             max=ages[i];
             old=names[i];
@@ -26,26 +27,45 @@ int main(){
             min=ages[i];
             young=names[i];
             }
+        
     }
-  
+
+
+
  
 
     int choice;
     while(1){
     cout<<"1.가장 나이가 많은 사람 출력"<<endl<<"2.가장 나이가 적은 사람 출력"<<endl<<"3.종료";
     cin >>choice;
-    if(choice==1)
-        cout<<old<<endl;
+    if(choice==1){
+        
+    for(int i=0;i<maxPeople;i++){
+        if(max==ages[i]){
+            max=ages[i];
+            old=names[i];
+            cout<<names[i]<<endl;
+            }
+    }
+    }
     else if(choice==2)
-        cout<<young<<endl;
+        
+        for(int i=0;i<maxPeople;i++)
+        if(min==ages[i]){
+            min=ages[i];
+            young=names[i];
+            cout<<names[i]<<endl;
+            }
     else {  
         cout<<"종료";
         break;
         }
     
+       
+    }
     
     }
-    }
+    
    
 
     
