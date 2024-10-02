@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 int main(){
     const int numCell=3;
     char board[numCell][numCell]{};
