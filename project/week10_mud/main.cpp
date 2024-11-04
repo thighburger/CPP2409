@@ -1,12 +1,13 @@
+#include "user.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
+User user;// User 객체생성
+
 const int mapX = 5;
 const int mapY = 5;
 
-// 유저 체력
-int hp=20;
 
 bool inMap;
 
@@ -20,7 +21,7 @@ int user_x = 0; // 가로 번호
 int user_y = 0; // 세로 번호
 
 // 사용자의 입력을 저장할 변수(전역변수로이동)
-	string user_input = "";
+string user_input = "";
 
 //맵벗어났는지 체크함수
 void is_in(){
@@ -36,6 +37,16 @@ void is_in(){
 			if(user_input=="right")
 				user_x-=1;
 			}
+}
+//bool CheckUser(User user) 함수 생성
+bool CheckUser(User user){
+	if(user.GetHP()<=0){
+		return false;
+	}
+	else{
+		return true;
+	}
+
 }
 
 // 메인  함수
@@ -53,11 +64,9 @@ int main() {
 	
 	// 게임 시작 
 	while (1) { // 사용자에게 계속 입력받기 위해 무한 루프
-
 		
-		
-
-		cout << "현재 HP: "<<hp <<"  명령어를 입력하세요 (up,down,left,right,map,finish): ";
+		//hp 출력하는부분객체의GetHP멤버함수호출로진행
+		cout << "현재 HP: "<< user.GetHP() <<"  명령어를 입력하세요 (up,down,left,right,map,finish): ";
 		cin >> user_input;
 
 		if (user_input == "up") {
@@ -68,7 +77,7 @@ int main() {
 			if(inMap==true) {
 				cout << "위로 한 칸 올라갑니다." << endl;
 				displayMap(map, user_x, user_y);
-				hp--;
+				user.DecreaseHP(-1);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
 			}
 		}
 		else if (user_input == "down") {
@@ -78,7 +87,7 @@ int main() {
 			if(inMap==true) {
 				cout << "위로 한 칸 내려갑니다." << endl;
 				displayMap(map, user_x, user_y);
-				hp--;
+				user.DecreaseHP(-1);
 			}
 		}
 
@@ -89,7 +98,7 @@ int main() {
 			if(inMap==true) {
 				cout << "왼쪽으로 이동합니다." << endl;
 				displayMap(map, user_x, user_y);
-				hp--;
+				user.DecreaseHP(-1);
 			}
 		}
 		else if (user_input == "right") {
@@ -99,7 +108,7 @@ int main() {
 			if(inMap==true) {
 				cout << "오른쪽으로 이동합니다." << endl;
 				displayMap(map, user_x, user_y);
-				hp--;
+				user.DecreaseHP(-1);
 			}
 		}
 		else if (user_input == "map") {
@@ -115,7 +124,7 @@ int main() {
 			continue;
 		}
 		//Hp가 0이하로 되었는지 체크
-		if(hp<=0){
+		if(!(CheckUser(user))){//CheckUser() 함수를 적절한위치에서사용
 			cout<<"HP가 0이하가 되었습니다. 실패했습니다.";
 			return 0;
 		}
@@ -139,11 +148,11 @@ void checkState(int map[][mapX], int user_x, int user_y){
 			cout<<"아이템이 있습니다."<<endl;
 			break;
 		case 2:
-			hp-=2;
+			user.DecreaseHP(-2);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
 			cout<<"적이 있습니다. HP가 2 줄어듭니다."<<endl;;
 			break;
 		case 3:
-			hp+=2;
+			user.IncreaseHP(2);//물약을먹을경우, hp가2 증가하고, 해당증가는객체동작을사용
 			cout<<"포션이 있습니다. HP가 2 늘어납니다."<<endl;
 			break;
 
