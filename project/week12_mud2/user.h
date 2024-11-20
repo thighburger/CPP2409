@@ -1,11 +1,10 @@
-#ifndef USER_H
-#define USER_H
+
 
 #include <iostream>
 using namespace std;
 
 class User {
-private:
+protected:
     int hp;
     int cnt;
 
@@ -15,10 +14,17 @@ public:
     void IncreaseHP(int inc_hp);
     void IncreaseCnt(int inc_cnt);
     int GetHP() const;
-    int itemCnt() const;
-
+    int ItemCnt() const;
+    void DoAttack();
 
     friend ostream& operator<<(ostream& os, const User& user);
 };
+class Magician : User{
+    public:
+        void DoAttack();
+};
+class Warrior : User{
+    public:
+        void DoAttack();
+};
 
-#endif // USER_H

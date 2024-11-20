@@ -19,15 +19,26 @@ User::User() {
     cnt = 0;
 }
 
-int User::itemCnt() const {
+int User::ItemCnt() const {
     return cnt; // 아이템 개수 반환
 }
 
 ostream& operator<<(ostream& os, const User& user) {
-    os << "현재 HP는 " << user.GetHP() << " 이고, 먹은 아이템은 총 " << user.itemCnt() << "개 입니다";
+    os << "현재 HP는 " << user.GetHP() << " 이고, 먹은 아이템은 총 " << user.ItemCnt() << "개 입니다";
     return os;
 }
 
 void User::IncreaseCnt(int inc_cnt){
     cnt+=inc_cnt;
+}
+void User:: DoAttack(){
+    cout<<"공격합니다";
+}
+
+//Magician,Warrior
+void Magician::DoAttack(){
+    cout<<"마법 사용";
+}
+void Warrior::DoAttack(){
+    cout<<"베기 사용";
 }
