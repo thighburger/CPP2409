@@ -17,6 +17,8 @@ int User::GetHP() const {
 User::User() {
     hp = 20;
     cnt = 0;
+    x=0;
+    y=0;
 }
 
 int User::ItemCnt() const {

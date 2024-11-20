@@ -4,11 +4,13 @@
 #include<vector>
 using namespace std;
 
-User user;// User 객체생성
+User *user;// User 객체생성
+Magician magician;//마법사객체
+Warrior warrior;//전사 객체
 
 const int mapX = 5;
 const int mapY = 5;
-
+int turn=0;//턴 변수
 
 bool inMap;
 
@@ -17,15 +19,11 @@ bool checkXY(int user_x, int mapX, int user_y, int mapY);
 void displayMap(vector<vector<int>>map, int user_x, int user_y);
 bool checkGoal(vector<vector<int>>map, int user_x, int user_y);
 
-// 유저의 위치를 저장할 변수(전역변수로이동)
-int user_x = 0; // 가로 번호
-int user_y = 0; // 세로 번호
-
 // 사용자의 입력을 저장할 변수(전역변수로이동)
 string user_input = "";
 
 //맵벗어났는지 체크함수
-void is_in(){
+void is_in(int user_x,int user_y){
 		inMap = checkXY(user_x, mapX, user_y, mapY);
 		if (inMap == false) {
 			cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
@@ -65,63 +63,77 @@ int main() {
 	
 	// 게임 시작 
 	while (1) { // 사용자에게 계속 입력받기 위해 무한 루프
-		
+		if(turn%2==0){
+			user=&magician;
+			cout<<"마법사 차레입니다."<<endl;
+		}
+		else {
+			user=&warrior;
+			cout<<"전사 차례입니다."<<endl;
+		}
 		//hp 출력하는부분객체의GetHP멤버함수호출로진행
-		cout << "현재 HP: "<< user.GetHP() <<"  명령어를 입력하세요 (up,down,left,right,map,finish,information): ";
+		cout << "현재 HP: "<< user->GetHP() <<"  명령어를 입력하세요 (up,down,left,right,map,finish,information): ";
 		cin >> user_input;
 
 		if (user_input == "up") {
 			// 위로 한 칸 올라가기
-			user_y -= 1;
-			
-			is_in();
+			user->y -= 1;
+			turn++;
+
+			is_in(user->x,user->y);
 			if(inMap==true) {
 				cout << "위로 한 칸 올라갑니다." << endl;
-				displayMap(map, user_x, user_y);
-				user.DecreaseHP(-1);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
+				displayMap(map, user->x, user->y);
+				user->DecreaseHP(-1);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
 			}
 		}
 		else if (user_input == "down") {
 			// TODO: 아래로 한 칸 내려가기
-			user_y += 1;
-			is_in();
+			user->y += 1;
+			turn++;
+
+			is_in(user->x,user->y);
 			if(inMap==true) {
 				cout << "위로 한 칸 내려갑니다." << endl;
-				displayMap(map, user_x, user_y);
-				user.DecreaseHP(-1);
+				displayMap(map, user->x, user->y);
+				user->DecreaseHP(-1);
 			}
 		}
 
 		else if (user_input == "left") {
 			// TODO: 왼쪽으로 이동하기
-			user_x -= 1;
-			is_in();
+			user->x-= 1;
+			turn++;
+
+			is_in(user->x,user->y);
 			if(inMap==true) {
 				cout << "왼쪽으로 이동합니다." << endl;
-				displayMap(map, user_x, user_y);
-				user.DecreaseHP(-1);
+				displayMap(map, user->x, user->y);
+				user->DecreaseHP(-1);
 			}
 		}
 		else if (user_input == "right") {
 			// TODO: 오른쪽으로 이동하기
-			user_x += 1;
-			is_in();
+			user->x += 1;
+			turn++;
+
+			is_in(user->x,user->y);
 			if(inMap==true) {
 				cout << "오른쪽으로 이동합니다." << endl;
-				displayMap(map, user_x, user_y);
-				user.DecreaseHP(-1);
+				displayMap(map, user->x, user->y);
+				user->DecreaseHP(-1);
 			}
 		}
 		else if (user_input == "map") {
 			// TODO: map 보여주기 함수 호출
-			displayMap(map, user_x, user_y);
+			displayMap(map, user->x, user->y);
 		}
 		else if (user_input == "finish") {
 			cout << "finish합니다.";
 			break;
 		}
 		else if(user_input=="information"){
-			cout<<user<<endl;
+			cout<<*user<<endl;
 			continue;
 		}
 		else {
@@ -129,14 +141,14 @@ int main() {
 			continue;
 		}
 		//Hp가 0이하로 되었는지 체크
-		if(!(CheckUser(user))){//CheckUser() 함수를 적절한위치에서사용
+		if(!(CheckUser(*user))){//CheckUser() 함수를 적절한위치에서사용
 			cout<<"HP가 0이하가 되었습니다. 실패했습니다.";
 			return 0;
 		}
 
 
 		// 목적지에 도달했는지 체크
-		bool finish = checkGoal(map, user_x, user_y);
+		bool finish = checkGoal(map, user->x, user->y);
 		if (finish == true) {
 			cout << "목적지에 도착했습니다! 축하합니다!" << endl;
 			cout << "게임을 finish합니다." << endl;
@@ -151,14 +163,14 @@ void checkState(vector<vector<int>>map, int user_x, int user_y){
 	switch(map[user_y][user_x]){
 		case 1:
 			cout<<"아이템이 있습니다."<<endl;
-			user.IncreaseCnt(1);
+			user->IncreaseCnt(1);
 			break;
 		case 2:
-			user.DecreaseHP(-2);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
+			user->DecreaseHP(-2);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
 			cout<<"적이 있습니다. HP가 2 줄어듭니다."<<endl;;
 			break;
 		case 3:
-			user.IncreaseHP(2);//물약을먹을경우, hp가2 증가하고, 해당증가는객체동작을사용
+			user->IncreaseHP(2);//물약을먹을경우, hp가2 증가하고, 해당증가는객체동작을사용
 			cout<<"포션이 있습니다. HP가 2 늘어납니다."<<endl;
 			break;
 
@@ -169,8 +181,15 @@ void checkState(vector<vector<int>>map, int user_x, int user_y){
 void displayMap(vector<vector<int>>map, int user_x, int user_y) {
 	for (int i = 0; i < mapY; i++) {
 		for (int j = 0; j < mapX; j++) {
-			if (i == user_y && j == user_x) {
-				cout << " USER |"; // 양 옆 1칸 공백
+			if (i == magician.y && j==magician.x ) {
+				if(magician.x==warrior.x && magician.y==warrior.y){
+					cout<<" M/W |";
+					continue;
+				}
+				cout << "  M  |"; 
+			}
+			else if(i == warrior.y && j==warrior.x){
+				cout << "  W  |"; 
 			}
 			else {
 				int posState = map[i][j];
