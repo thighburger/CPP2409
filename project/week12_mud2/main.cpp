@@ -18,10 +18,7 @@ bool inMap;
 bool checkXY(int user_x, int mapX, int user_y, int mapY);
 void displayMap(vector<vector<int>>map, int user_x, int user_y);
 bool checkGoal(vector<vector<int>>map, int user_x, int user_y);
-<<<<<<< HEAD
 void checkState(vector<vector<int>>map, int user_x, int user_y);
-=======
->>>>>>> 993364045d281e613db65969beed30106e858ad9
 
 // 사용자의 입력을 저장할 변수(전역변수로이동)
 string user_input = "";
@@ -32,13 +29,13 @@ void is_in(int user_x,int user_y){
 		if (inMap == false) {
 			cout << "맵을 벗어났습니다. 다시 돌아갑니다." << endl;
 			if(user_input=="up")
-				user_y+=1;
+				user->y+=1;
 			if(user_input=="down")
-				user_y-=1;
+				user->y-=1;
 			if(user_input=="left")
-				user_x+=1;
+				user->x+=1;
 			if(user_input=="right")
-				user_x-=1;
+				user->x-=1;
 			}
 }
 //bool CheckUser(User user) 함수 생성
@@ -88,10 +85,7 @@ int main() {
 			if(inMap==true) {
 				cout << "위로 한 칸 올라갑니다." << endl;
 				displayMap(map, user->x, user->y);
-<<<<<<< HEAD
 				checkState(map, user->x, user->y);//호출
-=======
->>>>>>> 993364045d281e613db65969beed30106e858ad9
 				user->DecreaseHP(-1);//hp 감소되는부분객체의DecreaseHP 멤버함수호출로진행
 			}
 		}
@@ -104,10 +98,8 @@ int main() {
 			if(inMap==true) {
 				cout << "위로 한 칸 내려갑니다." << endl;
 				displayMap(map, user->x, user->y);
-<<<<<<< HEAD
 				checkState(map, user->x, user->y);
-=======
->>>>>>> 993364045d281e613db65969beed30106e858ad9
+
 				user->DecreaseHP(-1);
 			}
 		}
@@ -121,10 +113,7 @@ int main() {
 			if(inMap==true) {
 				cout << "왼쪽으로 이동합니다." << endl;
 				displayMap(map, user->x, user->y);
-<<<<<<< HEAD
 				checkState(map, user->x, user->y);
-=======
->>>>>>> 993364045d281e613db65969beed30106e858ad9
 				user->DecreaseHP(-1);
 			}
 		}
@@ -137,10 +126,7 @@ int main() {
 			if(inMap==true) {
 				cout << "오른쪽으로 이동합니다." << endl;
 				displayMap(map, user->x, user->y);
-<<<<<<< HEAD
 				checkState(map, user->x, user->y);
-=======
->>>>>>> 993364045d281e613db65969beed30106e858ad9
 				user->DecreaseHP(-1);
 			}
 		}
