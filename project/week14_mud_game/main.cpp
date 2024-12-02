@@ -63,7 +63,8 @@ int main() {
 	file.close();
 	
 	int choice;
-	// try/catch 블록
+	
+	// 1202 예외추가
 	try
     {
     	cout<<"직업을 선택하세요.(마법사:1,전사:2)"<<endl;
